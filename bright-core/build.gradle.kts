@@ -60,7 +60,7 @@ afterEvaluate {
 
                 groupId = "com.github.SALM872"
                 artifactId = "bright-core"
-                version = "1.0.0-alpha01"
+                version = "v1.0.0"
             }
         }
     }
