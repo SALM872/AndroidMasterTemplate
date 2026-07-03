@@ -1,0 +1,6 @@
+jdk:
+  - openjdk17
+
+install:
+  - ./gradlew :bright-core:publishToMavenLocal
+  - ./gradlew :bright-room:publishToMavenLocal
