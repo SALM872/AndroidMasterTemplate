@@ -1,10 +1,16 @@
 # AndroidMasterTemplate
 
-A reusable Android Library Factory built using Kotlin, Jetpack Compose and Modern Android Development.
+A reusable Android SDK Factory built with Kotlin, Jetpack Compose and Modern Android Development.
 
-This project is NOT a normal Android application.
+This repository is **not a normal Android application**.
 
-It is a Factory used to build reusable Android libraries which are later published through GitHub + JitPack.
+It is a multi-module Android Library Factory where every reusable library is developed, tested, documented and published through **GitHub + JitPack**.
+
+---
+
+# Vision
+
+Build a collection of production-ready Android SDKs that can be reused across multiple Android projects with a clean architecture, consistent API design and professional documentation.
 
 ---
 
@@ -12,14 +18,18 @@ It is a Factory used to build reusable Android libraries which are later publish
 
 ## bright-core
 
-Contains common reusable classes.
+Common reusable utilities shared across all Bright SDK modules.
 
-Features
+### Features
 
 - Result Wrapper
 - Logger
 - Utilities
 - Common Helpers
+
+Status
+
+✅ Stable
 
 ---
 
@@ -27,7 +37,7 @@ Features
 
 A lightweight wrapper around Android Room.
 
-Features
+### Features
 
 - BaseDao
 - BaseRepository
@@ -41,39 +51,98 @@ Features
 - Bulk Delete
 - JitPack Ready
 
-CRUD Tested
+### Tested
 
 - Insert
 - Read
 - Update
 - Delete
 
+Status
+
+✅ Stable
+
+---
+
+## bright-permission
+
+A modern Android Runtime Permission library with a simple and developer-friendly API.
+
+### Features
+
+- Single Permission Request
+- Multiple Permission Request
+- Permission State Detection
+- Permanently Denied Detection
+- Open App Settings
+- Permission Validator
+- Permission State Resolver
+- Clean Permission Engine
+- JitPack Ready
+
+### Supported Results
+
+- GRANTED
+- DENIED
+- PERMANENTLY_DENIED
+
+Status
+
+✅ Stable
+
 ---
 
 # Sample Application
 
-The app module exists only for testing reusable libraries.
+The **app** module exists only for testing Bright SDK modules.
 
-It is NOT production code.
+It is **not production code**.
 
-Every library gets tested inside this app before publishing.
+Every library is fully tested inside this application before being published.
 
 ---
 
-# Roadmap
+# Documentation Standard
+
+Every Bright SDK module follows the same documentation structure.
+
+- README.md
+- CHANGELOG.md
+- ROADMAP.md
+- API_REFERENCE.md
+- ARCHITECTURE.md
+- DESIGN_DECISIONS.md
+- LICENSE
+- .gitignore
+
+---
+
+# Future Modules
 
 - BrightImagePicker
-- BrightPermission
 - BrightNetwork
 - BrightCamera
 - BrightStorage
 - BrightFirebase
+- BrightLocation
+- BrightNotification
+- BrightPreferences
+- BrightMedia
+- BrightCompose
 
 ---
 
 # Publish Flow
 
 Library
+
+↓
+
+Testing
+
+↓
+
+Documentation
 
 ↓
 
@@ -93,8 +162,12 @@ Real Project
 
 ---
 
-Version
+# Current Version
 
-Current Version
+v1.1.0
 
-v1.0.0
+---
+
+# License
+
+This project is licensed under the MIT License.

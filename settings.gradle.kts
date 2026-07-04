@@ -20,6 +20,8 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "AndroidMasterTemplate"
-include(":app")
+include(":sample-bright-room")
 include(":bright-core")
 include(":bright-room")
+include(":app")
+include(":bright-permission")

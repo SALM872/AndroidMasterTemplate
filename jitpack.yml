@@ -4,3 +4,4 @@ jdk:
 install:
   - ./gradlew :bright-core:publishToMavenLocal
   - ./gradlew :bright-room:publishToMavenLocal
+  - ./gradlew :bright-permission:publishToMavenLocal
