@@ -23,5 +23,7 @@ rootProject.name = "AndroidMasterTemplate"
 include(":sample-bright-room")
 include(":bright-core")
 include(":bright-room")
-include(":app")
+include(":sample-bright-permission")
 include(":bright-permission")
+include(":sample-bright-auth")
+include(":bright-auth")

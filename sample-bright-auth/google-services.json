@@ -1,0 +1,130 @@
+{
+  "project_info": {
+    "project_number": "9612807790",
+    "firebase_url": "https://food-app-87aa3-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "food-app-87aa3",
+    "storage_bucket": "food-app-87aa3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:9612807790:android:6187390980e8478377e07f",
+        "android_client_info": {
+          "package_name": "com.bright.foodieapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "9612807790-uq9krc63apvcff5b9fi67rhq7t2roren.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bright.foodieapp",
+            "certificate_hash": "18f5396a8c741acbc7a6b60f03e46ac6372bf7ff"
+          }
+        },
+        {
+          "client_id": "9612807790-l04bmq6nn7k7bi5gm41ttt25n5vvp104.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNRyEAXkww0BZ67Ef-hAc5OVJLMKNdMtM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "9612807790-l04bmq6nn7k7bi5gm41ttt25n5vvp104.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:9612807790:android:4d25957243723ea977e07f",
+        "android_client_info": {
+          "package_name": "com.bright.jiomanager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "9612807790-m7k2c63u53bo7m8ngj7hugvigf2ad90d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bright.jiomanager",
+            "certificate_hash": "18f5396a8c741acbc7a6b60f03e46ac6372bf7ff"
+          }
+        },
+        {
+          "client_id": "9612807790-vlmflnph4cs922ncah7f7k395l6gak5k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bright.jiomanager",
+            "certificate_hash": "9ef61f7c947dae640242b0e2d60f3d84b1cd6601"
+          }
+        },
+        {
+          "client_id": "9612807790-l04bmq6nn7k7bi5gm41ttt25n5vvp104.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNRyEAXkww0BZ67Ef-hAc5OVJLMKNdMtM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "9612807790-l04bmq6nn7k7bi5gm41ttt25n5vvp104.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:9612807790:android:d5602fbfa1f3d08977e07f",
+        "android_client_info": {
+          "package_name": "com.bright.sample.auth"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "9612807790-mm1p2bg545iqt7kjifbdvul9lfi2boam.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bright.sample.auth",
+            "certificate_hash": "18f5396a8c741acbc7a6b60f03e46ac6372bf7ff"
+          }
+        },
+        {
+          "client_id": "9612807790-l04bmq6nn7k7bi5gm41ttt25n5vvp104.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNRyEAXkww0BZ67Ef-hAc5OVJLMKNdMtM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "9612807790-l04bmq6nn7k7bi5gm41ttt25n5vvp104.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
