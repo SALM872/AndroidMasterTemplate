@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
     id("maven-publish")
 }
 
@@ -34,6 +35,9 @@ android {
 
     publishing{
         singleVariant("release")
+        {
+            withSourcesJar()
+        }
     }
 }
 
@@ -54,4 +58,17 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+}
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("release") {
+                from(components["release"])
+
+                groupId = "com.github.SALM872"
+                artifactId = "bright-auth"
+                version = "v1.0.3"
+            }
+        }
+    }
 }
