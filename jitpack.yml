@@ -6,3 +6,4 @@ install:
   - ./gradlew :bright-auth:publishToMavenLocal
   - ./gradlew :bright-room:publishToMavenLocal
   - ./gradlew :bright-permission:publishToMavenLocal
+  - ./gradlew :bright-storage:publishToMavenLocal
