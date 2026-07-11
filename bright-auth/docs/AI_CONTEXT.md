@@ -1,407 +1,515 @@
-# BrightAuth AI Context
+# AI Context
 
-## Purpose
+Project: BrightStorage
 
-This document provides complete context about the BrightAuth SDK.
-
-It is intended for AI assistants, future maintainers, contributors, and developers who need to understand the project without reading every source file.
-
-This document represents the project's design philosophy, architecture, API contract, coding standards, implementation decisions, and future direction.
+Version: 1.0.0
 
 ---
 
-# Project Overview
+# Purpose
 
-Project Name
+BrightStorage is a reusable Android storage framework built using Kotlin.
 
-BrightAuth
+The library provides a unified API for working with Android storage while hiding Android-specific implementation details from application developers.
 
-Language
+The project is designed around clean architecture, predictable APIs, and long-term maintainability.
 
-Kotlin
-
-Platform
-
-Android
-
-Architecture
-
-Layered Architecture
-
-Status
-
-Production Ready (v1.0.0)
-
-Current Authentication Provider
-
-Google Sign In
-
-Future Providers
-
-Facebook
-
-GitHub
-
-Apple
-
-Phone Authentication
+This document serves as the permanent engineering context for both human contributors and AI assistants.
 
 ---
 
-# Vision
+# Core Philosophy
 
-BrightAuth is designed to become a lightweight, modular, provider-independent Android Authentication SDK.
+BrightStorage is **not** intended to be just another media picker.
 
-The primary goal is to hide provider-specific implementation details while exposing a very small and stable public API.
+Its goal is to become a complete Android Storage Framework.
 
-The SDK should remain simple for application developers while allowing internal implementation to evolve independently.
+Every storage-related operation should eventually be accessible through one consistent public API.
+
+Developers should never need to understand Android storage internals to use the library.
+
+---
+
+# Primary Goals
+
+The library prioritizes:
+
+- Simplicity
+- Consistency
+- Stability
+- Reusability
+- Backward Compatibility
+
+Developer experience always takes precedence over exposing Android implementation details.
 
 ---
 
 # Public API Philosophy
 
-Only one public entry point exists.
+Only a very small number of classes should be public.
 
-BrightAuth
+Current public entry point:
 
-The developer should never access internal packages directly.
+```
+BrightStorage
+```
 
-The ideal developer experience is
+Supporting public models:
 
-Initialize
+```
+StorageFile
 
-↓
+StorageResult
 
-Sign In
+StorageConfig
+```
 
-↓
+Everything else should remain internal unless a strong reason exists.
 
-Receive Result
-
-↓
-
-Access Current User
-
-↓
-
-Sign Out
-
-Nothing more.
-
----
-
-# Current Public API
-
-BrightAuth.initialize()
-
-BrightAuth.signIn()
-
-BrightAuth.signOut()
-
-BrightAuth.currentUser()
-
-BrightAuth.isSignedIn()
-
-No additional public API should be added unless it significantly improves developer experience.
+Avoid exposing internal implementation classes.
 
 ---
 
 # Internal Architecture
 
+Every operation follows the same flow.
+
+```
 Application
 
 ↓
 
-BrightAuth
+BrightStorage
 
 ↓
 
-AuthManager
+StorageEngine
 
 ↓
 
-AuthEngine
+Feature Engine
 
 ↓
 
-Provider Engine
+Launcher
 
 ↓
 
-Provider Client
+Android Framework
 
 ↓
 
-Credential Manager
+StorageFileResolver
 
 ↓
 
-Authentication Provider
+StorageFile
+
+↓
+
+StorageResult
+
+↓
+
+Application
+```
+
+No feature should bypass this architecture.
+
+Consistency is considered more important than minimizing class count.
 
 ---
 
-# Internal Components
+# Package Responsibilities
 
-BrightAuth
+api
 
-Public API
+Public APIs only.
 
----
-
-AuthManager
-
-Coordinates SDK operations.
+No Android implementation.
 
 ---
 
-AuthEngine
+builder
 
-Common authentication interface.
+Configuration classes.
 
-Every authentication provider must implement this interface.
+Examples:
 
----
+StorageConfig
 
-GoogleAuthEngine
-
-Google authentication implementation.
+CameraConfig
 
 ---
 
-GoogleAuthClient
+callback
 
-Communicates with CredentialManager.
-
----
-
-GoogleAuthParser
-
-Converts Google credentials into AuthUser.
+Callback interfaces shared across the project.
 
 ---
 
-GoogleAuthExceptionMapper
+engine
 
-Maps provider exceptions into BrightAuth exceptions.
+Coordinates operations.
 
----
-
-AuthSessionManager
-
-Stores the authenticated user.
-
-Provides
-
-currentUser()
-
-isLoggedIn()
-
-clear()
+Never communicate directly with Android UI.
 
 ---
 
-BrightInitializer
+launcher
 
-Stores SDK configuration.
+Only Activity Result Contracts.
+
+Launchers should never contain business logic.
 
 ---
 
-# Session Model
+manager
 
-Current implementation
+Initialization and shared state.
 
-Memory only.
+Managers should never resolve metadata.
 
-Persistent storage is intentionally excluded from Version 1.0.
+---
 
-Future versions may introduce DataStore support without changing the public API.
+util
+
+Independent helper classes.
+
+Reusable functionality only.
+
+---
+
+extensions
+
+Extension functions.
+
+No business logic.
+
+---
+
+model
+
+Shared models.
+
+Every storage feature returns StorageFile.
+
+---
+
+registry
+
+Launcher registration.
+
+Centralized registration only.
+
+---
+
+# StorageFile
+
+StorageFile is the most important model in the project.
+
+Every picker and camera operation should eventually produce one or more StorageFile objects.
+
+Future metadata should always be added to StorageFile instead of creating separate result models.
+
+---
+
+# StorageResult
+
+StorageResult represents every possible outcome.
+
+Allowed states:
+
+Success
+
+Cancelled
+
+Error
+
+No feature should invent additional callback states unless absolutely necessary.
+
+---
+
+# Current Features
+
+Version 1 currently supports:
+
+Images
+
+Videos
+
+Documents
+
+Audio
+
+Camera Capture
+
+Metadata Extraction
+
+Thumbnail Generation
+
+Formatter Extensions
+
+Display Extensions
+
+---
+
+# Metadata Philosophy
+
+Metadata extraction should be automatic.
+
+Applications should not manually use:
+
+ContentResolver
+
+MediaMetadataRetriever
+
+ThumbnailUtils
+
+MediaStore
+
+BrightStorage should hide these implementation details.
+
+---
+
+# Camera Philosophy
+
+Developers should never manually configure:
+
+FileProvider
+
+Temporary Files
+
+Camera Contracts
+
+URI Creation
+
+BrightStorage is responsible for camera infrastructure.
+
+---
+
+# API Consistency Rules
+
+All picker APIs should follow the same naming.
+
+Examples:
+
+pickImage()
+
+pickImages()
+
+pickVideo()
+
+pickVideos()
+
+pickDocument()
+
+pickDocuments()
+
+pickAudio()
+
+pickAudios()
+
+captureImage()
+
+captureVideo()
+
+Future APIs must continue this pattern.
+
+---
+
+# Naming Rules
+
+Prefer descriptive names.
+
+Examples:
+
+StorageFile
+
+StorageResult
+
+StorageEngine
+
+CameraManager
+
+ImagePickerLauncher
+
+Avoid abbreviations unless universally understood.
+
+---
+
+# Internal Coding Rules
+
+Every class should have one responsibility.
+
+Avoid mixing:
+
+Android APIs
+
+Metadata extraction
+
+Business logic
+
+Initialization
+
+inside the same class.
+
+Keep layers independent.
 
 ---
 
 # Error Handling
 
-Provider exceptions must never be exposed directly.
+Unexpected failures should return:
 
-Instead
+StorageResult.Error
 
-Provider Exception
+Never silently ignore exceptions.
 
-↓
-
-GoogleAuthExceptionMapper
-
-↓
-
-AuthException
-
-↓
-
-AuthResult.Error
-
-Applications should only depend on AuthException.
+Always provide meaningful exception information whenever possible.
 
 ---
 
-# Authentication Result
+# Performance Guidelines
 
-Authentication always returns AuthResult.
+Avoid duplicate metadata extraction.
 
-Possible states
+Resolve metadata only once.
 
-Success
+Reuse StorageFile.
 
-Error
+Avoid unnecessary Bitmap allocations.
 
-Cancelled
-
-No provider-specific result should ever escape the SDK.
+Keep heavy operations outside the UI thread whenever possible.
 
 ---
 
-# UI Philosophy
-
-BrightAuth intentionally does not provide UI components.
-
-The SDK will never include
-
-Loading Dialogs
-
-Buttons
-
-Login Screens
-
-Navigation
-
-Snackbars
-
-Toasts
-
-Animations
-
-UI remains the responsibility of the host application.
-
-This decision keeps BrightAuth independent of Compose, XML, Material versions, and application-specific design systems.
-
----
-
-# Provider Philosophy
-
-Every provider should implement the same architecture.
-
-Example
-
-Google
-
-↓
-
-GoogleAuthEngine
-
-↓
-
-GoogleAuthClient
-
-↓
-
-Parser
-
-↓
-
-Session
-
-↓
-
-Result
-
-Future providers should follow exactly the same pattern.
-
-No provider should require changes to the BrightAuth public API.
-
----
-
-# Coding Rules
+# Backward Compatibility
 
 Public APIs should remain stable.
 
-Internal classes should remain internal.
+Internal implementations may change freely.
 
-Business logic must remain outside UI.
+Minor releases should avoid breaking applications.
 
-Avoid duplicate state.
-
-Session should have a single source of truth.
-
-Provider implementations must remain isolated.
-
-Authentication providers should never leak provider-specific classes.
+Breaking API changes belong only in major releases.
 
 ---
 
-# Future Direction
+# Future Refactoring
 
-Version 1.1
+The following internal improvements are planned.
 
-Facebook Authentication
+StorageFileResolver
 
-Version 1.2
+↓
 
-GitHub Authentication
+ImageMetadataResolver
 
-Version 1.3
+VideoMetadataResolver
 
-Apple Authentication
+AudioMetadataResolver
 
-Version 2.0
+DocumentMetadataResolver
 
-Plugin based authentication providers.
-
-Custom provider support.
-
-Enterprise features.
+This refactoring should not affect public APIs.
 
 ---
 
-# Development Guidelines
+# Planned Features
 
-When modifying BrightAuth
+Future releases may include:
 
-Always preserve backward compatibility.
+Folder Picker
 
-Avoid breaking the public API.
+Persistable URI Permissions
 
-Prefer composition over duplication.
+Cloud Upload
 
-Keep provider implementations independent.
+CameraX
 
-Maintain a clear separation between public API and internal implementation.
+Storage Observer
 
-Do not introduce UI into the SDK.
+Compose Components
 
-Keep architecture modular.
+Advanced Metadata
 
----
+PDF Preview
 
-# Documentation Policy
+Album Artwork
 
-Every public API change must update
-
-README
-
-API_REFERENCE
-
-BLUEPRINT
-
-AI_CONTEXT
-
-Roadmap
-
-This ensures documentation never falls behind implementation.
+These features should integrate into the existing architecture rather than introducing new architectural patterns.
 
 ---
 
-# Project Identity
+# Things To Avoid
 
-BrightAuth is not just a Google Sign-In wrapper.
+Avoid exposing Android framework classes publicly.
 
-BrightAuth is the authentication foundation of the Bright SDK ecosystem.
+Avoid creating duplicate APIs.
 
-It is designed to become a complete authentication platform for Android while maintaining a clean, stable, and developer-friendly API.
+Avoid feature-specific callback interfaces.
+
+Avoid bypassing StorageEngine.
+
+Avoid tightly coupling Launchers with business logic.
+
+Avoid breaking naming consistency.
+
+---
+
+# AI Instructions
+
+When modifying BrightStorage:
+
+Always preserve architecture.
+
+Never introduce shortcuts that bypass the Engine layer.
+
+Never expose internal implementation classes without strong justification.
+
+Prefer reusable abstractions.
+
+Prefer consistency over cleverness.
+
+Maintain backward compatibility.
+
+Follow existing naming conventions.
+
+Keep Android-specific logic isolated.
+
+If multiple implementation options exist, choose the one that minimizes public API changes.
+
+---
+
+# Long-Term Vision
+
+BrightStorage should eventually become the default storage framework for Android applications.
+
+The project should provide a complete solution for:
+
+Media Selection
+
+Camera Capture
+
+Metadata Extraction
+
+Storage Observation
+
+Cloud Upload
+
+Compose Integration
+
+while maintaining one consistent developer experience.
+
+Every future feature should strengthen this vision rather than expanding the public API unnecessarily.
+
+---
+
+# Final Note
+
+This document is the permanent engineering memory of BrightStorage.
+
+Future contributors and AI assistants should read this file before making architectural decisions.
+
+If implementation details change, this document should be updated to reflect the current design philosophy and long-term direction of the project.

@@ -1,164 +1,289 @@
-# BrightAuth Roadmap
+# BrightStorage Roadmap
 
-## Overview
-
-This document describes the planned direction of BrightAuth.
-
-The roadmap is divided into versions. Each version introduces new capabilities while maintaining backward compatibility whenever possible.
+Version: 1.0.0
 
 ---
 
-# Vision
+# Overview
 
-BrightAuth aims to become a lightweight, production-ready, provider-independent Android authentication SDK.
+This roadmap outlines the planned evolution of BrightStorage.
 
-The SDK should allow developers to integrate authentication with minimal setup while keeping the public API simple and stable.
+The roadmap is intended to communicate the long-term direction of the project while maintaining a stable and backward-compatible public API.
+
+Features listed here represent planned improvements and may evolve over time based on community feedback and project priorities.
 
 ---
 
-# Version 1.0.0
+# Version 1.0
 
-Status
+## Core Storage Platform
 
-Released
+The first major release focuses on providing a complete and stable storage foundation for Android applications.
 
-Features
+### Completed Features
 
-- Google Sign In
-- Google Sign Out
-- Session Management
-- AuthResult API
-- AuthException Mapping
-- Current User API
-- Authentication State API
-- Sample Application
-- Production Ready Architecture
+#### Image
+
+- Single Image Picker
+- Multiple Image Picker
+- Metadata Extraction
+- Thumbnail Generation
+
+---
+
+#### Video
+
+- Single Video Picker
+- Multiple Video Picker
+- Metadata Extraction
+- Thumbnail Generation
+- Duration Detection
+- Resolution Detection
+
+---
+
+#### Documents
+
+- Single Document Picker
+- Multiple Document Picker
+- MIME Type Detection
+- File Size Detection
+- Extension Detection
+
+---
+
+#### Audio
+
+- Single Audio Picker
+- Multiple Audio Picker
+- Duration Detection
+- Artist
+- Album
+- Genre
+- Bitrate
+- Metadata Extraction
+
+---
+
+#### Camera
+
+- Capture Image
+- Capture Video
+- Automatic FileProvider
+- Automatic Temporary File Creation
+- Metadata Extraction
+
+---
+
+#### Core Library
+
+- Unified StorageFile Model
+- Unified StorageResult
+- Thumbnail API
+- Formatter Extensions
+- Display Extensions
+- Layered Architecture
+- Builder Configuration
+- Callback API
 
 ---
 
 # Version 1.1
 
-Planned
+The primary focus of Version 1.1 is refinement rather than introducing major new functionality.
 
-- Facebook Authentication
-- Better Session Validation
-- Internal Code Optimization
-- Additional Unit Tests
-- Improved Documentation
+## Planned Improvements
+
+### Better Metadata
+
+- EXIF Information
+- Camera Model
+- GPS Coordinates
+- Orientation
+- Creation Date
+
+---
+
+### Better Audio Support
+
+- Album Artwork
+- Composer
+- Track Number
+- Disc Number
+- Embedded Lyrics (if available)
+
+---
+
+### Better Document Support
+
+- Improved Document Type Detection
+- Better MIME Mapping
+- Richer Metadata
+
+---
+
+### Internal Improvements
+
+- StorageFileResolver Refactoring
+- Dedicated Metadata Resolvers
+- Storage Constants
+- Better Exception Handling
+- Performance Optimization
 
 ---
 
 # Version 1.2
 
-Planned
+Focus shifts toward improving developer productivity.
 
-- GitHub Authentication
-- Multiple Provider Support
-- Provider Selection
-- Better Logging
-- Performance Improvements
+## Planned Features
 
----
-
-# Version 1.3
-
-Planned
-
-- Apple Sign In
-- Anonymous Authentication
-- Additional Authentication Providers
-- Advanced Session Management
+- Folder Picker
+- Persistable URI Permissions
+- Folder Metadata
+- Better Thumbnail APIs
+- Custom MIME Filters
+- Selection Limits
 
 ---
 
 # Version 2.0
 
-Long Term Vision
+Version 2 represents the next generation of BrightStorage.
 
-- Complete Multi Provider Authentication SDK
-- Plugin Based Provider Architecture
-- Custom Provider Support
-- Enterprise Ready APIs
-- Analytics Hooks
-- Event Listener Support
+The focus shifts from storage selection to a complete Android storage framework.
 
 ---
 
-# Design Principles
+## Planned Features
 
-The following principles should never change.
+### Cloud Support
 
-- Public API should remain simple.
-- Internal implementation should remain hidden.
-- Providers must be modular.
-- Authentication logic must remain independent of UI.
-- New providers should not require breaking API changes.
-
----
-
-# Non Goals
-
-BrightAuth intentionally does not provide.
-
-- Login Screens
-- Loading Dialogs
-- Toast Messages
-- Snackbars
-- UI Components
-- Navigation
-- Backend Authentication
-- Database Storage
-
-These responsibilities belong to the host application.
+- Firebase Storage
+- Supabase Storage
+- Cloudinary
+- Custom Upload Providers
 
 ---
 
-# Compatibility
+### CameraX Integration
 
-BrightAuth is designed to support
-
-- Jetpack Compose
-- XML Projects
-- Material Design
-- Future Android SDK versions
-
-without changing the public API.
+- Front Camera
+- Back Camera
+- Flash Control
+- Camera Quality
+- Video Quality
+- Camera Configuration
 
 ---
 
-# Future Bright Ecosystem
+### Compose Module
 
-BrightAuth is part of the Bright SDK ecosystem.
+Dedicated Jetpack Compose components.
 
-Current Modules
+Examples:
 
-- BrightAuth
-- BrightRoom
-- BrightPermission
-- BrightCore
-
-Future Modules
-
-- BrightNetwork
-- BrightStorage
-- BrightAnalytics
-- BrightNavigation
-- BrightUI
-
-Each module will remain independent while sharing the same development philosophy.
+- StorageThumbnail()
+- StorageFileCard()
+- StorageGrid()
+- StorageGallery()
 
 ---
 
-# Maintenance Policy
+### Storage Observer
 
-Bug fixes and stability improvements may be released as patch versions.
+Observe device storage changes.
 
-New features will be introduced through minor versions.
+Examples:
 
-Breaking changes should only be introduced in major versions.
+- New Images
+- Deleted Files
+- Updated Media
 
 ---
 
-# Final Goal
+### Background Processing
 
-Build a clean, reliable, developer-friendly Android SDK ecosystem that minimizes boilerplate code while following modern Android development practices.
+- Background Metadata Extraction
+- Background Thumbnail Generation
+- Background Upload
+
+---
+
+# Future Ideas
+
+The following ideas are being considered for future releases.
+
+- File Compression
+- Batch Rename
+- PDF Preview
+- Audio Waveform
+- Video Frame Extraction
+- File Hash Generation
+- Duplicate Detection
+- Media Scanner Utilities
+
+These ideas are exploratory and may change based on project priorities.
+
+---
+
+# Stability Policy
+
+BrightStorage follows a stability-first development approach.
+
+Priority order:
+
+1. Stability
+2. Reliability
+3. Developer Experience
+4. Performance
+5. New Features
+
+New functionality will never compromise the stability of existing APIs.
+
+---
+
+# Backward Compatibility
+
+BrightStorage aims to maintain backward compatibility whenever possible.
+
+Minor releases should not introduce breaking changes.
+
+Breaking API changes will only occur in major releases.
+
+---
+
+# Community
+
+Future development will be guided by:
+
+- Bug Reports
+- Feature Requests
+- Community Feedback
+- Android Platform Changes
+
+Community contributions are welcome and appreciated.
+
+---
+
+# Long-Term Vision
+
+The long-term goal of BrightStorage is to become the most complete Android storage framework.
+
+Instead of solving only one storage problem, BrightStorage aims to provide a unified solution for every common Android storage workflow.
+
+Applications should be able to perform media selection, metadata extraction, camera capture, storage observation, cloud upload, and future storage operations using one consistent API.
+
+---
+
+# Conclusion
+
+Version 1 establishes a stable storage platform.
+
+Future versions will continue expanding BrightStorage while preserving its core principles:
+
+- Simplicity
+- Consistency
+- Reliability
+- Maintainability
+- Scalability

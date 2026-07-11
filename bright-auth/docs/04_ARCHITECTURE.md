@@ -1,318 +1,397 @@
-# BrightAuth Architecture
+# BrightStorage Architecture
 
-## Overview
-
-BrightAuth follows a layered architecture that separates the public API from provider-specific implementations.
-
-The application interacts only with the BrightAuth API. All authentication logic, provider integrations, session handling, and error mapping remain internal.
+Version: 1.0.0
 
 ---
 
-# High Level Architecture
+# Introduction
 
+BrightStorage follows a layered architecture designed for simplicity, maintainability, and scalability.
+
+Instead of placing all logic inside a single class, responsibilities are divided into dedicated layers.
+
+Each layer performs one specific task and communicates only with the next layer.
+
+This architecture keeps the library easy to maintain while allowing future features to be added without breaking existing APIs.
+
+---
+
+# Architecture Overview
+
+Every storage operation follows the same execution flow.
+
+```
+Application
+
+        │
+
+        ▼
+
+BrightStorage (Public API)
+
+        │
+
+        ▼
+
+StorageEngine
+
+        │
+
+        ▼
+
+Feature Engine
+
+(Image / Video / Audio / Document / Camera)
+
+        │
+
+        ▼
+
+Launcher
+
+(Activity Result Contracts)
+
+        │
+
+        ▼
+
+Android Framework
+
+        │
+
+        ▼
+
+StorageFileResolver
+
+        │
+
+        ▼
+
+StorageFile
+
+        │
+
+        ▼
+
+StorageResult
+
+        │
+
+        ▼
+
+Application Callback
+```
+
+---
+
+# Package Responsibilities
+
+## api
+
+Contains only public APIs.
+
+Example:
+
+- BrightStorage
+
+No Android framework code should exist here.
+
+---
+
+## builder
+
+Contains configuration classes.
+
+Examples:
+
+- StorageConfig
+- CameraConfig
+
+Builders allow future customization while keeping public APIs stable.
+
+---
+
+## callback
+
+Contains callback interfaces.
+
+Example:
+
+- StorageCallback
+
+All picker and camera operations communicate using callbacks defined here.
+
+---
+
+## engine
+
+Coordinates library operations.
+
+Examples:
+
+- StorageEngine
+- CameraEngine
+- AudioPickerEngine
+- VideoPickerEngine
+- DocumentPickerEngine
+
+The Engine layer decides which launcher should execute a request.
+
+Business logic should remain here rather than inside Launchers.
+
+---
+
+## launcher
+
+Responsible for Android Activity Result APIs.
+
+Examples:
+
+- ImagePickerLauncher
+- MultipleImagePickerLauncher
+- VideoPickerLauncher
+- CameraImageLauncher
+- CameraVideoLauncher
+- AudioPickerLauncher
+- DocumentPickerLauncher
+
+Launchers should never contain business logic.
+
+Their only responsibility is interacting with Android.
+
+---
+
+## manager
+
+Responsible for initialization and internal state.
+
+Examples:
+
+- StorageManager
+- CameraManager
+
+Managers store configuration and shared resources.
+
+---
+
+## util
+
+Contains reusable helper classes.
+
+Examples:
+
+- StorageFileResolver
+- StorageFormatter
+
+Utilities should remain independent from UI and Android lifecycle.
+
+---
+
+## model
+
+Contains shared data models.
+
+Examples:
+
+- StorageFile
+- StorageResult
+- StorageException
+
+These models are shared across every storage operation.
+
+---
+
+## extensions
+
+Contains extension functions that improve usability.
+
+Examples:
+
+- Thumbnail Extensions
+- Formatter Extensions
+- Display Extensions
+
+Extensions provide convenience APIs without increasing library complexity.
+
+---
+
+# Layer Communication
+
+Communication always flows downward.
+
+```
 Application
 
 ↓
 
-BrightAuth
+API
 
 ↓
 
-AuthManager
+Engine
 
 ↓
 
-AuthEngine
+Launcher
 
 ↓
 
-Provider Engine
+Android
 
 ↓
 
-Provider Client
+Resolver
 
 ↓
 
-Credential Manager
+Model
 
 ↓
 
-Authentication Provider
+Callback
+```
+
+Higher layers never depend on lower implementation details.
+
+This makes internal refactoring much safer.
 
 ---
 
-# Package Structure
+# StorageFileResolver
 
-api/
+StorageFileResolver is responsible for converting Android Uri objects into StorageFile models.
 
-Public SDK entry point.
+Responsibilities include:
 
-Contains the BrightAuth object.
+- Display Name
+- MIME Type
+- Extension
+- File Size
+- Resolution
+- Duration
+- Audio Metadata
+- Thumbnail
+- Last Modified
 
----
-
-builder/
-
-Responsible for SDK configuration.
-
-Contains initialization logic and configuration models.
-
----
-
-callback/
-
-Contains callback interfaces exposed by the SDK.
+Future versions may split metadata extraction into dedicated resolver classes while preserving the same public API.
 
 ---
 
-core/
+# StorageFile
 
-Contains shared abstractions used across providers.
+StorageFile acts as the unified representation of every selected file.
 
-Examples
+Regardless of whether the file is:
 
-- AuthEngine
-- Initializer
+- Image
+- Video
+- Audio
+- Document
+- Camera Capture
 
----
+the application receives the same StorageFile model.
 
-exceptions/
-
-Defines authentication exceptions returned to developers.
-
-The SDK never exposes provider-specific exceptions directly.
-
----
-
-google/
-
-Contains the complete Google authentication implementation.
-
-Includes
-
-- GoogleAuthEngine
-- GoogleAuthClient
-- GoogleAuthParser
-- GoogleAuthExceptionMapper
+This greatly simplifies application code.
 
 ---
 
-manager/
+# Callback Flow
 
-Coordinates SDK operations.
+Every operation returns a StorageResult.
 
-Acts as the central controller between the public API and provider implementations.
+Possible outcomes include:
 
----
+- Success
+- Cancelled
+- Error
 
-model/
+Applications never interact directly with Android Activity Results.
 
-Contains public data models.
-
-Examples
-
-- AuthUser
-- AuthResult
-- AuthProvider
+BrightStorage converts Android callbacks into StorageResult objects.
 
 ---
 
-session/
+# Why This Architecture?
 
-Responsible for authentication session management.
+This design provides several benefits.
 
-Stores the authenticated user and clears the session during sign out.
+## Consistency
 
----
-
-# Authentication Flow
-
-Application
-
-↓
-
-BrightAuth.signIn()
-
-↓
-
-AuthManager
-
-↓
-
-GoogleAuthEngine
-
-↓
-
-GoogleAuthClient
-
-↓
-
-CredentialManager
-
-↓
-
-Google Account Picker
-
-↓
-
-Google Authentication
-
-↓
-
-GoogleAuthParser
-
-↓
-
-AuthSessionManager
-
-↓
-
-AuthResult.Success
+Every feature follows the same architecture.
 
 ---
 
-# Session Flow
+## Maintainability
 
-Successful Login
-
-↓
-
-Create AuthUser
-
-↓
-
-Save Session
-
-↓
-
-currentUser()
-
-↓
-
-isSignedIn()
-
-↓
-
-signOut()
-
-↓
-
-Clear Session
+Each class has one responsibility.
 
 ---
 
-# Error Flow
+## Reusability
 
-CredentialManager
-
-↓
-
-GetCredentialException
-
-↓
-
-GoogleAuthExceptionMapper
-
-↓
-
-AuthException
-
-↓
-
-AuthResult.Error
-
-↓
-
-Application
+Launchers, Resolvers, and Models can be reused across multiple features.
 
 ---
 
-# Design Principles
+## Scalability
 
-The architecture follows these principles.
+Future storage types can be added without redesigning the existing architecture.
+
+Examples:
+
+- Folder Picker
+- Cloud Upload
+- CameraX
+- Compose Components
+
+---
+
+## Testability
+
+Business logic is separated from Android framework code wherever possible.
+
+This improves long-term maintainability.
+
+---
+
+# Internal Principles
+
+BrightStorage follows several engineering principles.
 
 - Single Responsibility Principle
-- Modular Design
-- Provider Isolation
-- Internal Implementation Hiding
-- Stable Public API
-- Easy Future Expansion
+- Clean Architecture
+- Minimal Public API
+- Consistent Naming
+- Internal Abstraction
+- Reusable Components
+- Backward Compatibility
 
----
-
-# Provider Architecture
-
-Every authentication provider must implement AuthEngine.
-
-Example
-
-Google
-
-↓
-
-GoogleAuthEngine
-
-↓
-
-GoogleAuthClient
-
-↓
-
-Google Authentication
-
-Future providers will follow the same architecture.
-
-Facebook
-
-↓
-
-FacebookAuthEngine
-
-GitHub
-
-↓
-
-GithubAuthEngine
-
-Apple
-
-↓
-
-AppleAuthEngine
-
-No public API changes will be required.
-
----
-
-# Session Management
-
-The SDK stores only the authenticated user's session.
-
-Session responsibilities include
-
-- Save authenticated user
-- Return current user
-- Clear session during sign out
-
-Persistent storage is intentionally not included in v1.0.
-
----
-
-# Public API Boundary
-
-Application developers should only access
-
-- BrightAuth
-
-Everything else is considered an internal implementation detail.
+These principles guide every future feature added to the project.
 
 ---
 
 # Future Architecture
 
-The architecture is designed to support multiple authentication providers without breaking existing applications.
+Version 1 establishes the core storage platform.
 
-New providers will integrate by implementing the AuthEngine interface while preserving the same public API.
+Future versions will extend the architecture while preserving existing public APIs.
 
-This approach ensures long-term API stability and simplifies future SDK evolution.
+Potential additions include:
+
+- Folder Picker
+- Persistable URI Permissions
+- Storage Observer
+- Cloud Upload
+- CameraX
+- Compose Components
+- Advanced Metadata Extraction
+
+The layered architecture was intentionally designed to support these future capabilities without major restructuring.
+
+---
+
+# Conclusion
+
+BrightStorage is designed around a layered architecture that separates responsibilities, minimizes Android-specific boilerplate, and provides developers with a clean and predictable API.
+
+Every feature follows the same architectural flow, ensuring consistency, maintainability, and long-term scalability.

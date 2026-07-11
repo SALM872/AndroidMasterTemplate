@@ -1,227 +1,373 @@
-# BrightAuth Setup Guide
+# BrightStorage Setup Guide
 
-## Overview
+Version: 1.0.0
 
-This guide explains how to integrate BrightAuth into an Android application.
+---
 
-Current Supported Provider
+# Introduction
 
-- Google Sign In
+This guide explains how to integrate BrightStorage into an Android application.
+
+By the end of this guide you will be able to:
+
+- Install BrightStorage
+- Initialize the library
+- Pick images
+- Pick videos
+- Pick documents
+- Pick audio
+- Capture images
+- Capture videos
 
 ---
 
 # Requirements
 
-- Android Studio
-- Kotlin
-- Android SDK
-- Firebase Project
-- Google Play Services
+BrightStorage requires the following minimum environment.
+
+| Requirement | Version |
+|-------------|----------|
+| Android Studio | Latest Stable |
+| Kotlin | 2.x |
+| Android Gradle Plugin | 8.x or higher |
+| Min SDK | 24 |
+| Target SDK | Latest Stable |
 
 ---
 
-# Step 1
+# Installation
 
-Create a Firebase Project.
-
----
-
-# Step 2
-
-Add an Android App to Firebase.
-
-Package name example
-
-```
-com.example.app
-```
-
-Package name must exactly match the Android application's package name.
-
----
-
-# Step 3
-
-Add SHA-1 fingerprint.
-
-Example
-
-```
-18:F5:39:6A:8C:74:1A:CB:C7:A6:B6:0F:03:E4:6A:C6:37:2B:F7:FF
-```
-
----
-
-# Step 4
-
-Enable Google Authentication.
-
-Firebase Console
-
-Authentication
-
-↓
-
-Sign-in Method
-
-↓
-
-Enable Google
-
----
-
-# Step 5
-
-Download
-
-google-services.json
-
-Place the file inside the Android application's module.
-
-Example
-
-```
-app/
-    google-services.json
-```
-
-For the BrightAuth sample project
-
-```
-sample-bright-auth/
-    google-services.json
-```
-
----
-
-# Step 6
-
-Copy the Web Client ID.
-
-Firebase Console
-
-↓
-
-Project Settings
-
-↓
-
-General
-
-↓
-
-Web Client ID
-
-Example
-
-```
-xxxxxxxxxxxxxxxx.apps.googleusercontent.com
-```
-
----
-
-# Step 7
-
-Initialize BrightAuth.
-
-Example
+Add the BrightStorage dependency.
 
 ```kotlin
-BrightAuth.initialize(
-
-    activity = this,
-
-    config = BrightAuthConfig(
-
-        webClientId = "YOUR_WEB_CLIENT_ID"
-
-    )
-
-)
+implementation("com.github.YOUR_USERNAME:BrightStorage:1.0.0")
 ```
 
-Initialization should be performed once before calling signIn().
+Sync Gradle.
 
 ---
 
-# Step 8
+# Initialize BrightStorage
 
-Start Login.
+Initialize BrightStorage once inside your Activity.
+
+Example:
 
 ```kotlin
-BrightAuth.signIn { result ->
+class MainActivity : ComponentActivity() {
+
+    override fun onCreate(
+        savedInstanceState: Bundle?
+    ) {
+
+        super.onCreate(savedInstanceState)
+
+        BrightStorage.initialize(
+            activity = this
+        )
+
+    }
+
+}
+```
+
+Initialization should only happen once.
+
+---
+
+# Basic Image Picker
+
+```kotlin
+BrightStorage.pickImage { result ->
+
+    when(result){
+
+        is StorageResult.Success -> {
+
+            val image = result.files.first()
+
+        }
+
+        is StorageResult.Cancelled -> {
+
+        }
+
+        is StorageResult.Error -> {
+
+        }
+
+    }
 
 }
 ```
 
 ---
 
-# Step 9
-
-Get Current User.
+# Multiple Image Picker
 
 ```kotlin
-val user = BrightAuth.currentUser()
+BrightStorage.pickImages { result ->
+
+    when(result){
+
+        is StorageResult.Success -> {
+
+            val images = result.files
+
+        }
+
+        else -> Unit
+
+    }
+
+}
 ```
 
 ---
 
-# Step 10
-
-Logout.
+# Video Picker
 
 ```kotlin
-BrightAuth.signOut()
+BrightStorage.pickVideo { result ->
+
+    when(result){
+
+        is StorageResult.Success -> {
+
+            val video = result.files.first()
+
+        }
+
+        else -> Unit
+
+    }
+
+}
 ```
 
 ---
 
-# Common Errors
+# Multiple Video Picker
 
-## App crashes before login
+```kotlin
+BrightStorage.pickVideos { result ->
 
-Cause
+    when(result){
 
-BrightAuth.initialize() was not called.
+        is StorageResult.Success -> {
+
+            val videos = result.files
+
+        }
+
+        else -> Unit
+
+    }
+
+}
+```
 
 ---
 
-## Google dialog does not appear
+# Document Picker
 
-Possible reasons
+```kotlin
+BrightStorage.pickDocument { result ->
 
-- Invalid Web Client ID
-- Incorrect package name
-- Missing SHA-1
-- Google Authentication disabled
-- Missing google-services.json
+    when(result){
+
+        is StorageResult.Success -> {
+
+            val document = result.files.first()
+
+        }
+
+        else -> Unit
+
+    }
+
+}
+```
 
 ---
 
-## No credentials available
+# Multiple Document Picker
 
-Cause
+```kotlin
+BrightStorage.pickDocuments { result ->
 
-User cancelled authentication or no eligible Google account was found.
+    when(result){
+
+        is StorageResult.Success -> {
+
+            val documents = result.files
+
+        }
+
+        else -> Unit
+
+    }
+
+}
+```
+
+---
+
+# Audio Picker
+
+```kotlin
+BrightStorage.pickAudio { result ->
+
+    when(result){
+
+        is StorageResult.Success -> {
+
+            val audio = result.files.first()
+
+        }
+
+        else -> Unit
+
+    }
+
+}
+```
+
+---
+
+# Multiple Audio Picker
+
+```kotlin
+BrightStorage.pickAudios { result ->
+
+    when(result){
+
+        is StorageResult.Success -> {
+
+            val audios = result.files
+
+        }
+
+        else -> Unit
+
+    }
+
+}
+```
+
+---
+
+# Capture Image
+
+```kotlin
+BrightStorage.captureImage { result ->
+
+    when(result){
+
+        is StorageResult.Success -> {
+
+            val image = result.files.first()
+
+        }
+
+        else -> Unit
+
+    }
+
+}
+```
+
+---
+
+# Capture Video
+
+```kotlin
+BrightStorage.captureVideo { result ->
+
+    when(result){
+
+        is StorageResult.Success -> {
+
+            val video = result.files.first()
+
+        }
+
+        else -> Unit
+
+    }
+
+}
+```
+
+---
+
+# Working With StorageFile
+
+Every successful operation returns one or more StorageFile objects.
+
+Example:
+
+```kotlin
+val file = result.files.first()
+
+println(file.name)
+
+println(file.mimeType)
+
+println(file.size)
+
+println(file.uri)
+
+println(file.type)
+```
+
+Additional metadata is available depending on the selected media type.
+
+Examples include:
+
+- Duration
+- Resolution
+- Artist
+- Album
+- Genre
+- Thumbnail
+
+---
+
+# Error Handling
+
+Always handle every StorageResult state.
+
+```kotlin
+when(result){
+
+    is StorageResult.Success -> {}
+
+    is StorageResult.Cancelled -> {}
+
+    is StorageResult.Error -> {}
+
+}
+```
 
 ---
 
 # Best Practices
 
-- Initialize BrightAuth only once.
-- Always handle AuthResult.Error.
-- Never expose the ID Token.
-- Never modify internal BrightAuth classes.
-- Keep google-services.json inside the application module.
+- Initialize BrightStorage once.
+- Always handle Success, Cancelled and Error.
+- Check nullable metadata before use.
+- Reuse StorageFile instead of repeatedly resolving metadata.
+- Avoid keeping temporary camera files longer than necessary.
 
 ---
 
-# Support
+# Next Steps
 
-If setup is completed correctly, BrightAuth should authenticate the user with only three steps.
+After completing the setup guide, continue with:
 
-1. Initialize
+- API Reference
+- Architecture Guide
+- Roadmap
 
-2. Sign In
-
-3. Handle Result
+These documents explain the internal architecture and advanced capabilities of BrightStorage.
