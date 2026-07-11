@@ -1,173 +1,170 @@
-# AndroidMasterTemplate
+# 🚀 Bright Android Factory
 
-A reusable Android SDK Factory built with Kotlin, Jetpack Compose and Modern Android Development.
+A collection of modern Android libraries built with **Kotlin**, **Jetpack Compose**, and **AndroidX** to speed up Android development.
 
-This repository is **not a normal Android application**.
-
-It is a multi-module Android Library Factory where every reusable library is developed, tested, documented and published through **GitHub + JitPack**.
+The goal of this project is to provide production-ready, modular, reusable libraries that can be integrated into any Android application with minimal setup.
 
 ---
 
-# Vision
+# ✨ Why Bright Android Factory?
 
-Build a collection of production-ready Android SDKs that can be reused across multiple Android projects with a clean architecture, consistent API design and professional documentation.
+Building the same features repeatedly wastes development time.
 
----
+Bright Android Factory solves this by providing reusable libraries for common Android tasks.
 
-# Current Modules
-
-## bright-core
-
-Common reusable utilities shared across all Bright SDK modules.
-
-### Features
-
-- Result Wrapper
-- Logger
-- Utilities
-- Common Helpers
-
-Status
-
-✅ Stable
+Instead of writing everything from scratch, simply add the required module and start building your app.
 
 ---
 
-## bright-room
+# 📦 Available Libraries
 
-A lightweight wrapper around Android Room.
-
-### Features
-
-- BaseDao
-- BaseRepository
-- BaseEntity
-- BrightRoom Builder
-- BrightRoomConfig
-- Generic CRUD
-- Flow Support
-- Bulk Insert
-- Bulk Update
-- Bulk Delete
-- JitPack Ready
-
-### Tested
-
-- Insert
-- Read
-- Update
-- Delete
-
-Status
-
-✅ Stable
+| Library | Status | Description |
+|---------|--------|-------------|
+| Bright Core | ✅ Stable | Common utilities, shared classes and base components |
+| Bright Auth | ✅ Stable | Authentication utilities and login helpers |
+| Bright Room | ✅ Stable | Simplified Room Database architecture |
+| Bright Permission | ✅ Stable | Runtime permission handling |
+| Bright Storage | ✅ Stable | Image, Video, Audio, Document Picker & Camera APIs |
 
 ---
 
-## bright-permission
+# 🚧 Planned Libraries
 
-A modern Android Runtime Permission library with a simple and developer-friendly API.
+These libraries are planned for future releases.
 
-### Features
-
-- Single Permission Request
-- Multiple Permission Request
-- Permission State Detection
-- Permanently Denied Detection
-- Open App Settings
-- Permission Validator
-- Permission State Resolver
-- Clean Permission Engine
-- JitPack Ready
-
-### Supported Results
-
-- GRANTED
-- DENIED
-- PERMANENTLY_DENIED
-
-Status
-
-✅ Stable
+- Bright Firebase
+- Bright Network
+- Bright Notification
+- Bright Billing
+- Bright Camera
+- Bright Analytics
+- Bright Location
+- Bright Media
+- Bright Payment
+- Bright PDF
+- Bright Downloader
+- Bright Logger
+- Bright Bluetooth
+- Bright Maps
+- Bright AI
 
 ---
 
-# Sample Application
+# 📱 Features
 
-The **app** module exists only for testing Bright SDK modules.
-
-It is **not production code**.
-
-Every library is fully tested inside this application before being published.
-
----
-
-# Documentation Standard
-
-Every Bright SDK module follows the same documentation structure.
-
-- README.md
-- CHANGELOG.md
-- ROADMAP.md
-- API_REFERENCE.md
-- ARCHITECTURE.md
-- DESIGN_DECISIONS.md
-- LICENSE
-- .gitignore
+- Kotlin First
+- Jetpack Compose Ready
+- AndroidX Compatible
+- Lifecycle Aware
+- Easy Integration
+- Modular Architecture
+- Production Ready APIs
+- Beginner Friendly
+- JitPack Distribution
+- Open Source
 
 ---
 
-# Future Modules
+# 📥 Installation
 
-- BrightImagePicker
-- BrightNetwork
-- BrightCamera
-- BrightStorage
-- BrightFirebase
-- BrightLocation
-- BrightNotification
-- BrightPreferences
-- BrightMedia
-- BrightCompose
+Add JitPack repository.
 
----
+```gradle
+dependencyResolutionManagement {
 
-# Publish Flow
+    repositories {
+        google()
+        mavenCentral()
+        maven { url = uri("https://jitpack.io") }
+    }
 
-Library
+}
+```
 
-↓
+Then add the required library.
 
-Testing
+Example:
 
-↓
+```gradle
+implementation("com.github.SALM872.AndroidMasterTemplate:bright-storage:latest-version")
+```
 
-Documentation
-
-↓
-
-GitHub
-
-↓
-
-JitPack
-
-↓
-
-Dependency
-
-↓
-
-Real Project
+Replace **latest-version** with the latest release.
 
 ---
 
-# Current Version
+# 📚 Documentation
 
-v1.1.0
+Each library contains its own documentation.
+
+| Library | Documentation |
+|----------|---------------|
+| Bright Core | docs/ |
+| Bright Auth | docs/ |
+| Bright Room | docs/ |
+| Bright Permission | docs/ |
+| Bright Storage | docs/ |
+
+Each documentation includes
+
+- Installation
+- Configuration
+- API Reference
+- Examples
+- Best Practices
 
 ---
 
-# License
+# 🏗 Project Structure
 
-This project is licensed under the MIT License.
+```
+AndroidMasterTemplate
+
+├── bright-core
+├── bright-auth
+├── bright-room
+├── bright-permission
+├── bright-storage
+│
+├── docs
+├── samples
+├── CHANGELOG.md
+├── DEPENDENCIES.md
+└── README.md
+```
+
+---
+
+# 📌 Design Principles
+
+Every Bright library follows the same philosophy.
+
+- Simple API
+- Clean Architecture
+- Minimal Boilerplate
+- Consistent Naming
+- Reusable Components
+- Easy Maintenance
+- Production Ready
+
+---
+
+# 🤝 Contributing
+
+Contributions, feature requests and bug reports are welcome.
+
+If you find an issue, please open an Issue or submit a Pull Request.
+
+---
+
+# 📄 License
+
+This project is released under the MIT License.
+
+---
+
+# ❤️ Developed By
+
+**Salman (SALM872)**
+
+Building reusable Android libraries for modern Android development.
